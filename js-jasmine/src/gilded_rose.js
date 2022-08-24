@@ -20,7 +20,8 @@ class Shop {
 
 
   adjustQuality(item, adjustment) {
-    if (adjustment > 0 && item.quality >= 50) { return } // don't make increase if already 50 or more.
+    // don't make increase if already 50 or more || don't make decrease if zero or less.
+    if ((adjustment > 0 && item.quality >= 50) || (adjustment < 0 && item.quality <= 0)) { return }
     // otherwise adjust, but limit between expected bounds.
     var newQuality = Math.max(0, item.quality + adjustment);
     newQuality = Math.min(50, newQuality);
@@ -75,15 +76,8 @@ class Shop {
    * Handles all the other cases, that are not considered special
    */
   handleOther(item) {
-    if (item.quality > 0) {
-      this.adjustQuality(item, -1);
-    }
-
     item.sellIn = item.sellIn - 1;
-
-    if (item.sellIn < 0 && item.quality > 0) {
-      this.adjustQuality(item, -1);
-    }
+    this.adjustQuality(item, item.sellIn < 0 ? -2 :-1);
   }
 
   updateQuality() {
