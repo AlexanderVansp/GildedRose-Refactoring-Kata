@@ -39,21 +39,20 @@ class Shop {
    * Handles special case of item with name: {@link Names.BACKSTAGE}
    */
   handleBackstage(item) {
-    if (item.quality < 50) {
-      this.adjustQuality(item, 1);
-      if (item.sellIn < 11 && item.quality < 50) {
-        this.adjustQuality(item, 1);
-      }
 
-      if (item.sellIn < 6 && item.quality < 50) {
-        this.adjustQuality(item, 1);
-      }
+    this.adjustQuality(item, 1);
+
+    if (item.sellIn < 11) {
+      this.adjustQuality(item, 1);
+    }
+    if (item.sellIn < 6) {
+      this.adjustQuality(item, 1);
     }
 
     item.sellIn = item.sellIn - 1;
 
     if (item.sellIn < 0) {
-      item.quality = item.quality - item.quality;
+      item.quality = 0;
     }
   }
 
@@ -68,15 +67,8 @@ class Shop {
    * Handles special case of item with name: {@link Names.Conjured}
    */
    handleConjured(item) {
-    if (item.quality > 0) {
-      this.adjustQuality(item, -2);
-    }
-
     item.sellIn = item.sellIn - 1;
-
-    if (item.sellIn < 0 && item.quality > 0) {
-      this.adjustQuality(item, -2);
-    }
+    this.adjustQuality(item, item.sellIn < 0 ? -4 : -2);
   }
 
    /** 
