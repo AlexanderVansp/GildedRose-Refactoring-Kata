@@ -20,8 +20,10 @@ class Shop {
 
 
   adjustQuality(item, adjustment) {
+    if (adjustment > 0 && item.quality >= 50) { return } // don't make increase if already 50 or more.
+    // otherwise adjust, but limit between expected bounds.
     var newQuality = Math.max(0, item.quality + adjustment);
-    newQuality = Math.min(50, item.quality + adjustment);
+    newQuality = Math.min(50, newQuality);
     item.quality = newQuality;
   }
 
