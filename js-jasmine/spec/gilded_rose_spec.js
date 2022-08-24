@@ -47,7 +47,7 @@ describe("Gilded Rose", function () {
   describe("Test for expected result updateQuality", function () {
 
     testCases.forEach(singleTest => {
-      it("Test updateQuality", function () {
+      it(JSON.stringify(singleTest), function () {
         const gildedRose = new Shop([new Item(singleTest.input.name, singleTest.input.sellIn, singleTest.input.quality)]);
         const items = gildedRose.updateQuality();
         expect(items[0].sellIn).toEqual(singleTest.result.sellIn);
