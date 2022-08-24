@@ -9,7 +9,8 @@ class Item {
 const Names = {
   BRIE: 'Aged Brie',
   BACKSTAGE: 'Backstage passes to a TAFKAL80ETC concert',
-  SULFURAS: 'Sulfuras, Hand of Ragnaros'
+  SULFURAS: 'Sulfuras, Hand of Ragnaros',
+  CONJURED: 'Conjured Mana Cake'
 }
 
 class Shop {
@@ -17,18 +18,25 @@ class Shop {
     this.items = items;
   }
 
+
+  adjustQuality(item, adjustment) {
+    var newQuality = Math.max(0, item.quality + adjustment);
+    newQuality = Math.min(50, item.quality + adjustment);
+    item.quality = newQuality;
+  }
+
   /** 
    * Handles special case of item with name: {@link Names.BRIE}
    */
   handleBrie(item) {
     if (item.quality < 50) {
-      item.quality = item.quality + 1;
+      this.adjustQuality(item, 1);
     }
 
     item.sellIn = item.sellIn - 1;
 
     if (item.sellIn < 0 && item.quality < 50) {
-      item.quality = item.quality + 1;
+      this.adjustQuality(item, 1);
     }
   }
 
@@ -37,13 +45,13 @@ class Shop {
    */
   handleBackstage(item) {
     if (item.quality < 50) {
-      item.quality = item.quality + 1;
+      this.adjustQuality(item, 1);
       if (item.sellIn < 11 && item.quality < 50) {
-        item.quality = item.quality + 1;
+        this.adjustQuality(item, 1);
       }
 
       if (item.sellIn < 6 && item.quality < 50) {
-        item.quality = item.quality + 1;
+        this.adjustQuality(item, 1);
       }
     }
 
@@ -61,21 +69,35 @@ class Shop {
     // nothing to do in this case
   }
 
-   /** 
-   * Handles all the other cases, that are not considered special
+  /** 
+   * Handles special case of item with name: {@link Names.Conjured}
    */
-  handleOther(item) {
+   handleConjured(item) {
     if (item.quality > 0) {
-      item.quality = item.quality - 1;
+      this.adjustQuality(item, -2);
     }
 
     item.sellIn = item.sellIn - 1;
 
     if (item.sellIn < 0 && item.quality > 0) {
-      item.quality = item.quality - 1;
+      this.adjustQuality(item, -2);
     }
   }
 
+   /** 
+   * Handles all the other cases, that are not considered special
+   */
+  handleOther(item) {
+    if (item.quality > 0) {
+      this.adjustQuality(item, -1);
+    }
+
+    item.sellIn = item.sellIn - 1;
+
+    if (item.sellIn < 0 && item.quality > 0) {
+      this.adjustQuality(item, -1);
+    }
+  }
 
   updateQuality() {
     this.items.forEach(item => {
@@ -90,6 +112,9 @@ class Shop {
         case Names.SULFURAS:
           this.handleSulfuras(item)
           break;
+        case Names.CONJURED:
+            this.handleConjured(item)
+            break;
         default:
           this.handleOther(item);
           break
