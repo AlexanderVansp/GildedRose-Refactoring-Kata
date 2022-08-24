@@ -54,6 +54,36 @@ describe("Gilded Rose", function () {
         expect(items[0].quality).toEqual(singleTest.result.quality);
       })
     });
+
+    it("Conjured test normal", function () {
+      const inputSellIn = 10;
+      const inputQuality = 10;
+
+      const gildedRose = new Shop([new Item("NormalItem", inputSellIn, inputQuality), new Item("Conjured Mana Cake", inputSellIn, inputQuality)]);
+      const items = gildedRose.updateQuality();
+      
+      const updatedNormal = items[0];
+      const updatedConjured = items[1];
+
+      expect(updatedNormal.sellIn).toEqual(updatedConjured.sellIn);
+      // Difference in quality should be twice as big.
+      expect(2 * (updatedNormal.quality - inputQuality)).toEqual(updatedConjured.quality - inputQuality);
+    })
+
+    it("Conjured test negative sellIn", function () {
+      const inputSellIn = -1;
+      const inputQuality = 10;
+
+      const gildedRose = new Shop([new Item("NormalItem", inputSellIn, inputQuality), new Item("Conjured Mana Cake", inputSellIn, inputQuality)]);
+      const items = gildedRose.updateQuality();
+      
+      const updatedNormal = items[0];
+      const updatedConjured = items[1];
+
+      expect(updatedNormal.sellIn).toEqual(updatedConjured.sellIn);
+      // Difference in quality should be twice as big.
+      expect(2 * (updatedNormal.quality - inputQuality)).toEqual(updatedConjured.quality - inputQuality);
+    })
   });
 
 });
