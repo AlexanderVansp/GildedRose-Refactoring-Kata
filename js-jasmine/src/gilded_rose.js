@@ -9,8 +9,7 @@ class Item {
 const Names = {
   BRIE: 'Aged Brie',
   BACKSTAGE: 'Backstage passes to a TAFKAL80ETC concert',
-  SULFURAS: 'Sulfuras, Hand of Ragnaros',
-  OTHER: 'other'
+  SULFURAS: 'Sulfuras, Hand of Ragnaros'
 }
 
 class Shop {
