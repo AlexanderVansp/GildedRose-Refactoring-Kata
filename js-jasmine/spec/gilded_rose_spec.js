@@ -1,8 +1,8 @@
-var {Shop, Item} = require('../src/gilded_rose.js');
+var { Shop, Item } = require('../src/gilded_rose.js');
 
 const testCases = require('../legacy.json');
 
-describe("Gilded Rose", function() {
+describe("Gilded Rose", function () {
 
   /**
    * Helper functions to generate all possible values.
@@ -29,11 +29,11 @@ describe("Gilded Rose", function() {
 
     possibleNames.forEach(name => {
       for (let sellIn = minSellIn; sellIn <= maxSellIn; sellIn++) {
-          for (let quality = minQuality; quality <= maxQuality; quality++) {
-            const gildedRose = new Shop([ new Item(name, sellIn, quality) ]);
-            const items = gildedRose.updateQuality();
-            result.push({ input: {name: name, sellIn: sellIn, quality: quality}, result: {sellIn: items[0].sellIn, quality: items[0].quality}});
-          }
+        for (let quality = minQuality; quality <= maxQuality; quality++) {
+          const gildedRose = new Shop([new Item(name, sellIn, quality)]);
+          const items = gildedRose.updateQuality();
+          result.push({ input: { name: name, sellIn: sellIn, quality: quality }, result: { sellIn: items[0].sellIn, quality: items[0].quality } });
+        }
       }
     });
 
@@ -43,17 +43,17 @@ describe("Gilded Rose", function() {
   // To generate the legacy test data, pipe this to a file.
   // Can't do this at runtime, cause the logic of the code might change the result and still be happy.
   // generateTestCases()
- 
-  describe("Test for expected result updateQuality", function() {
-                   
+
+  describe("Test for expected result updateQuality", function () {
+
     testCases.forEach(singleTest => {
-          it("Test updateQuality", function(){
-            const gildedRose = new Shop([ new Item(singleTest.input.name, singleTest.input.sellIn, singleTest.input.quality) ]);
-            const items = gildedRose.updateQuality();
-            expect(items[0].sellIn).toEqual(singleTest.result.sellIn);
-            expect(items[0].quality).toEqual(singleTest.result.quality);
-        })
-      });
+      it("Test updateQuality", function () {
+        const gildedRose = new Shop([new Item(singleTest.input.name, singleTest.input.sellIn, singleTest.input.quality)]);
+        const items = gildedRose.updateQuality();
+        expect(items[0].sellIn).toEqual(singleTest.result.sellIn);
+        expect(items[0].quality).toEqual(singleTest.result.quality);
+      })
+    });
   });
 
 });
