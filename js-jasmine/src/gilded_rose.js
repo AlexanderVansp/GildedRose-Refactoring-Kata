@@ -14,7 +14,7 @@ const Names = {
 }
 
 class Shop {
-  constructor(items=[]){
+  constructor(items = []){
     this.items = items;
   }
 
@@ -67,17 +67,17 @@ class Shop {
   /** 
    * Handles special case of item with name: {@link Names.Conjured}
    */
-   handleConjured(item) {
+  handleConjured(item) {
     item.sellIn = item.sellIn - 1;
     this.adjustQuality(item, item.sellIn < 0 ? -4 : -2);
   }
 
-   /** 
-   * Handles all the other cases, that are not considered special
-   */
+  /** 
+  * Handles all the other cases, that are not considered special
+  */
   handleOther(item) {
     item.sellIn = item.sellIn - 1;
-    this.adjustQuality(item, item.sellIn < 0 ? -2 :-1);
+    this.adjustQuality(item, item.sellIn < 0 ? -2 : -1);
   }
 
   updateQuality() {
@@ -94,13 +94,13 @@ class Shop {
           this.handleSulfuras(item)
           break;
         case Names.CONJURED:
-            this.handleConjured(item)
-            break;
+          this.handleConjured(item)
+          break;
         default:
           this.handleOther(item);
           break
       }
-      
+
     })
 
     return this.items;
